@@ -2,6 +2,8 @@ const getWeatherApi = {
     key: "7e3f21edee540e6110af347b55eb1ab2",
     base: "https://api.openweathermap.org/data/2.5/"
 };
+//standard api to get the country name for country iso code
+let countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
 const search = document.getElementById('search'),
     cityLabel = document.querySelector('#city'),
@@ -9,10 +11,12 @@ const search = document.getElementById('search'),
     temperature = document.querySelector('.temperature'),
     weather = document.querySelector('.weather'),
     highLow = document.querySelector('.hi-low');
+let countryName = 'India';
 
 const displayResults = res => {
     console.log(res);
-    cityLabel.innerHTML = `${res.name}, ${res.sys.country}`;
+    countryName = countryNames.of(res.sys.country);
+    cityLabel.innerHTML = `${res.name}, ${countryName}`;
     currentDate.innerHTML = (new Date(res.dt * 1000)).toDateString();
     temperature.innerHTML = `${Math.round(res.main.temp)}<span>&#8451;</span>`;
     weather.innerHTML = res.weather[0].main;
